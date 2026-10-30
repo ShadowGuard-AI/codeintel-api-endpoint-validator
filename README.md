@@ -1,3 +1,5 @@
+![Banner](banner.png)
+
 # codeintel-API-Endpoint-Validator
 Scans codebase for defined API endpoints and validates them against a defined schema (e.g., OpenAPI/Swagger).  Flags inconsistencies and potential vulnerabilities arising from misconfigurations. - Focused on Tools for static code analysis, vulnerability scanning, and code quality assurance
 
