@@ -55,6 +55,15 @@ class APIEndpointValidator:
             logging.error(f"Error loading schema: {e}")
             raise
 
+        # An empty YAML file loads as None. Leaving self.schema as None
+        # made validate_endpoints report "Schema not loaded", which
+        # sends the reader hunting for a missing load_schema call when
+        # the actual problem is an empty or malformed schema file.
+        if not isinstance(self.schema, dict):
+            raise ValueError(
+                f"Schema file must contain a mapping at the top level, got {type(self.schema).__name__}."
+            )
+
     def find_endpoints(self) -> None:
         """
         Finds potential API endpoints in the codebase.
@@ -89,6 +98,13 @@ class APIEndpointValidator:
         if 'paths' not in self.schema:
             logging.warning("No 'paths' defined in the schema.  Cannot validate endpoints.")
             return ["No paths defined in schema"]
+
+        # Membership tests and key lookups below assume paths maps path
+        # strings to per-path objects. A schema whose paths is a list
+        # used to die inside the loop with a list indices error that
+        # named neither the schema nor the real problem.
+        if not isinstance(self.schema['paths'], dict):
+            return [f"Schema 'paths' must be a mapping, got {type(self.schema['paths']).__name__}"]
 
         for file_path, endpoint in self.endpoints:
             if endpoint not in self.schema['paths']:
