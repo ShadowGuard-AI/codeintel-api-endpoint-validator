@@ -29,6 +29,7 @@ class APIEndpointValidator:
         self.schema_path = schema_path
         self.endpoints = []
         self.schema = None
+        self.files_scanned = 0
 
     def load_schema(self) -> None:
         """
@@ -69,16 +70,26 @@ class APIEndpointValidator:
         Finds potential API endpoints in the codebase.
         This is a basic implementation and can be expanded with more sophisticated parsing.
         """
+        if not os.path.exists(self.code_path):
+            raise FileNotFoundError(f"Code path does not exist: {self.code_path}")
         try:
             for root, _, files in os.walk(self.code_path):
                 for file in files:
                     if file.endswith('.py'):
+                        self.files_scanned += 1
                         file_path = os.path.join(root, file)
                         with open(file_path, 'r') as f:
                             content = f.read()
-                            # Basic regex to find potential endpoint definitions (e.g., Flask routes)
-                            matches = re.findall(r"@app\.route\(['\"](.*?)['\"]", content)
+                            # Decorator forms on app, blueprint, router,
+                            # and similar objects: route, get, post, put,
+                            # delete, and patch.
+                            matches = re.findall(
+                                r"@\w+\.(?:route|get|post|put|delete|patch)\(['\"](.*?)['\"]",
+                                content)
                             self.endpoints.extend([(file_path, endpoint) for endpoint in matches])
+            logging.info(
+                f"Scanned {self.files_scanned} Python file(s), "
+                f"found {len(self.endpoints)} endpoint(s) to check.")
         except Exception as e:
             logging.error(f"Error finding endpoints: {e}")
             raise
@@ -146,11 +157,18 @@ def main() -> None:
         logging.getLogger().setLevel(logging.DEBUG)
         logging.debug("Verbose logging enabled.")
 
+    if not os.path.exists(args.code_path):
+        logging.error(f"Code path does not exist: {args.code_path}")
+        sys.exit(1)
+
     try:
         validator = APIEndpointValidator(args.code_path, args.schema_path)
         validator.load_schema()
         validator.find_endpoints()
         errors = validator.validate_endpoints()
+        logging.info(
+            f"Checked {len(validator.endpoints)} endpoint(s) "
+            f"from {validator.files_scanned} scanned file(s).")
 
         if errors:
             logging.error("API Endpoint Validation Failed:")
