@@ -83,6 +83,10 @@ class APIEndpointValidator:
                             # Decorator forms on app, blueprint, router,
                             # and similar objects: route, get, post, put,
                             # delete, and patch.
+                            # I scan with a regex over raw text, not an AST, so I also catch
+                            # routes mentioned inside strings and comments, and I miss any
+                            # decorator whose path is built from a variable. I accept both
+                            # errors here because the schema check below is the real gate.
                             matches = re.findall(
                                 r"@\w+\.(?:route|get|post|put|delete|patch)\(['\"](.*?)['\"]",
                                 content)
@@ -118,12 +122,18 @@ class APIEndpointValidator:
             return [f"Schema 'paths' must be a mapping, got {type(self.schema['paths']).__name__}"]
 
         for file_path, endpoint in self.endpoints:
+            # I compare the captured string exactly. A route written as
+            # /users/ and a schema path written as /users are different keys
+            # here, so a trailing slash alone reports as not found.
             if endpoint not in self.schema['paths']:
                 errors.append(f"Endpoint '{endpoint}' (defined in {file_path}) not found in schema.")
             else:
                 logging.debug(f"Endpoint '{endpoint}' found in schema.")
 
                 # Example validation: Check if the schema defines allowed methods (GET, POST, etc.)
+                # I test against lower case names because OpenAPI writes method
+                # keys that way. A schema that spells a method GET in capitals
+                # fails this check even though a reader would accept it.
                 methods = self.schema['paths'][endpoint].keys()
                 if not any(method in ['get', 'post', 'put', 'delete', 'patch', 'options', 'head'] for method in methods):
                     errors.append(f"Endpoint '{endpoint}' in schema does not define valid HTTP methods.")
