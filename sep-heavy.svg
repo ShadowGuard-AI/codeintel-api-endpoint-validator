@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 40" role="img" aria-label="Major separator: rain drops falling through the full width of the rule, each ending in a copper splash ring, rain grey on lightning white">
+<rect x="0" y="0" width="1200" height="40" fill="#f6f7f4"/>
+<line x1="0" y1="8" x2="1200" y2="8" stroke="#8e949a" stroke-width="2"/>
+<g stroke="#8e949a" stroke-width="2"><line x1="110" y1="12" x2="110" y2="24"/><line x1="360" y1="12" x2="360" y2="24"/><line x1="610" y1="12" x2="610" y2="24"/><line x1="860" y1="12" x2="860" y2="24"/><line x1="1090" y1="12" x2="1090" y2="24"/></g>
+<g fill="none" stroke="#b06e3e" stroke-width="2"><ellipse cx="110" cy="30" rx="13" ry="4"/><ellipse cx="360" cy="30" rx="13" ry="4"/><ellipse cx="610" cy="30" rx="13" ry="4"/><ellipse cx="860" cy="30" rx="13" ry="4"/><ellipse cx="1090" cy="30" rx="13" ry="4"/></g>
+</svg>

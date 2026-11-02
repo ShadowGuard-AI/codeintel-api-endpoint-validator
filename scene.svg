@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="The hillside watch in three depths: the cumulus towers rise by small stages and subside at the edges, a weather vane turns in gusts and settles while a kite tail streams and dips beside it, and a rain gauge at the lower edge rises drop by drop during a passing shower and holds steady">
+<rect x="0" y="0" width="1200" height="300" fill="#c4bcda"/>
+<g>
+<animateTransform attributeName="transform" type="translate" values="0 6;0 -8;0 2;0 6" dur="26s" repeatCount="indefinite"/>
+<ellipse cx="700" cy="96" rx="200" ry="62" fill="#f6f7f4"/><ellipse cx="620" cy="70" rx="105" ry="52" fill="#f6f7f4"/><ellipse cx="790" cy="66" rx="115" ry="56" fill="#f6f7f4"/>
+<rect x="500" y="132" width="400" height="18" fill="#8e949a"/>
+</g>
+<rect x="0" y="212" width="1200" height="88" fill="#607848"/>
+<g><animateTransform attributeName="transform" type="rotate" values="0 240 218;38 240 218;30 240 218;64 240 218;64 240 218" keyTimes="0;0.3;0.45;0.7;1" dur="13s" repeatCount="indefinite"/><line x1="196" y1="218" x2="284" y2="218" stroke="#333" stroke-width="4"/><polygon points="284,218 266,210 266,226" fill="#b06e3e"/><rect x="200" y="212" width="22" height="12" fill="#5c4a80"/></g>
+<line x1="240" y1="300" x2="240" y2="218" stroke="#333" stroke-width="4"/>
+<g stroke="#b06e3e" stroke-width="3" fill="none"><path d="M880 226 q26 10 44 -4"><animateTransform attributeName="transform" type="rotate" values="0 880 226;9 880 226;0 880 226" dur="7s" repeatCount="indefinite"/></path></g>
+<line x1="860" y1="212" x2="924" y2="222" stroke="#eee" stroke-width="2"/>
+<g><rect x="520" y="238" width="30" height="54" fill="#d6dee2" stroke="#b06e3e" stroke-width="3"/><rect x="522" y="292" width="26" height="0" fill="#96b4c4"><animate attributeName="height" values="0;0;26;26;26" keyTimes="0;0.2;0.55;0.8;1" dur="18s" repeatCount="indefinite"/><animate attributeName="y" values="292;292;266;266;266" keyTimes="0;0.2;0.55;0.8;1" dur="18s" repeatCount="indefinite"/></rect></g>
+</svg>
